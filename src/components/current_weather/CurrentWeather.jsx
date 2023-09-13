@@ -13,7 +13,7 @@ function CurrentWeather() {
             alt="weather image"
             src="./img/02d.png"
           />
-          <p className={CurrentWeatherCSS["weather-celsious"]}>30ºC</p>
+          <p className={CurrentWeatherCSS["weather-celsius"]}>30ºC</p>
         </div>
         <div className={CurrentWeatherCSS["weather-right"]}>
           <div className={CurrentWeatherCSS["weather-right-top"]}>
@@ -33,7 +33,7 @@ function CurrentWeather() {
                 alt="wind icon"
                 src="./img/wind.png"
               />
-              <p>100 m/s</p>
+              <p className={CurrentWeatherCSS["wind-ms"]}>100 m/s</p>
             </div>
             <div className={CurrentWeatherCSS["humidity-container"]}>
               <img
@@ -41,7 +41,7 @@ function CurrentWeather() {
                 alt="humidity icon"
                 src="./img/humidity.png"
               />
-              <p>100%</p>
+              <p className={CurrentWeatherCSS["humidity-percentage"]}>100%</p>
             </div>
           </div>
         </div>

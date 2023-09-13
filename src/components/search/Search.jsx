@@ -1,4 +1,3 @@
-import React from "react";
 import SearchCSS from "./Search.module.css";
 import { BsSearch } from "react-icons/bs";
 

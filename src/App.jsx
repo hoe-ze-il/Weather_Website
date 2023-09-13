@@ -1,5 +1,3 @@
-import React from "react";
-
 // CSS
 import "./App.css";
 
@@ -20,7 +18,8 @@ function App() {
         </header>
         <main>
           <CurrentWeather />
-          <Forecast />
+          <Forecast type="hourly" />
+          <Forecast type="daily" />
         </main>
       </DataProvider>
     </div>
