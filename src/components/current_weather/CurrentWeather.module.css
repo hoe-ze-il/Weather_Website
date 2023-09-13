@@ -17,11 +17,29 @@
   margin: 2rem 0;
 }
 
+@media screen and (min-width: 744px) {
+  .weather-display {
+    display: flex;
+    width: 521px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+}
+
 .weather-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (min-width: 744px) {
+  .weather-left {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
 
 .weather-celsius {

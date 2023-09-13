@@ -3,6 +3,12 @@
   width: 350px;
 }
 
+@media screen and (min-width: 744px) {
+  .container {
+    width: 545px;
+  }
+}
+
 .input-container {
   position: relative;
   width: 100%;
@@ -16,6 +22,12 @@
   background-color: #3f81a6;
   color: #fff;
   padding: 0 14px 0 14px;
+}
+
+@media screen and (min-width: 744px) {
+  .search-input {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
 
 .search-input::placeholder {

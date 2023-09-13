@@ -23,6 +23,12 @@ main {
   width: 350px;
 }
 
+@media screen and (min-width: 744px) {
+  main {
+    align-items: center;
+  }
+}
+
 .icon {
   color: #fff;
 }
