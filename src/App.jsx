@@ -1,4 +1,5 @@
-import React from "react";
+// CSS
+import "./App.css";
 
 // Components
 import Search from "./components/search/Search";
@@ -10,11 +11,16 @@ import { DataProvider } from "./context/DataContext";
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <DataProvider>
-        <Search />
-        <CurrentWeather />
-        <Forecast />
+        <header>
+          <Search />
+        </header>
+        <main>
+          <CurrentWeather />
+          <Forecast type="hourly" />
+          <Forecast type="daily" />
+        </main>
       </DataProvider>
     </div>
   );
