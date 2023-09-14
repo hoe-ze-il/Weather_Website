@@ -4,10 +4,8 @@ import DataContext from "../../context/DataContext";
 
 function CurrentWeather() {
   const { currentWeather } = useContext(DataContext);
-
   const date = new Date(currentWeather.dt * 1000);
   const currentMonth = date.toDateString();
-  const currentTime = `${date.getHours()}:${date.getMinutes()}`;
 
   return (
     <div className={CurrentWeather.container}>
@@ -31,8 +29,13 @@ function CurrentWeather() {
               {currentWeather.weather[0].description}
             </p>
             <p className={CurrentWeatherCSS.date}>{currentMonth}</p>
-            <p className={CurrentWeatherCSS.time}>
-              Local Time: <span>{currentTime} AM</span>
+            <p className={CurrentWeatherCSS["min-max"]}>
+              Temp Min:
+              <span> {Math.round(currentWeather.main.temp_min)}ºC</span>
+            </p>
+            <p className={CurrentWeatherCSS["min-max"]}>
+              Temp Max:
+              <span> {Math.round(currentWeather.main.temp_max)}ºC</span>
             </p>
             <p className={CurrentWeatherCSS["feels-like"]}>
               Feels Like:
@@ -57,7 +60,7 @@ function CurrentWeather() {
                 src="./img/humidity.png"
               />
               <p className={CurrentWeatherCSS["humidity-percentage"]}>
-                {currentWeather.main.humidity}%
+                {currentWeather.main.humidity} %
               </p>
             </div>
           </div>

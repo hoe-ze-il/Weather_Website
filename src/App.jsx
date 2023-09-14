@@ -4,6 +4,7 @@ import "./App.css";
 import Search from "./components/search/Search";
 import CurrentWeather from "./components/current_weather/CurrentWeather";
 import Forecast from "./components/forecast/Forecast";
+import cityData from "./data/city.json";
 
 // Context API
 import { DataProvider } from "./context/DataContext";
@@ -13,7 +14,7 @@ function App() {
     <div className="app">
       <DataProvider>
         <header>
-          <Search />
+          <Search data={cityData} />
         </header>
         <main>
           <CurrentWeather />
