@@ -7,12 +7,11 @@ export const DataProvider = ({ children }) => {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [latLon, setLatLon] = useState("11.568271,104.9224426");
 
-  const lat = "11.5696";
-  const lon = "104.921";
+  const [lat, lon] = latLon.split(",");
 
   useEffect(() => {
-    // Use a useEffect hook to make the API request
     fetch(
       `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
     )
@@ -41,10 +40,8 @@ export const DataProvider = ({ children }) => {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(currentWeather);
-
   return (
-    <DataContext.Provider value={{ currentWeather }}>
+    <DataContext.Provider value={{ currentWeather, setLatLon }}>
       {children}
     </DataContext.Provider>
   );
