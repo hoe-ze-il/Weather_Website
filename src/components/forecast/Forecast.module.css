@@ -23,7 +23,6 @@
   height: 1px;
   border-top: 2px solid white;
 }
-
 .forecast-icon {
   width: 45px;
   height: 45px;
@@ -52,4 +51,8 @@
 .line-col {
   height: 91px;
   border-left: 1px solid white;
+}
+
+.line-col:last-child {
+  display: none;
 }
