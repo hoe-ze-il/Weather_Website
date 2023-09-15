@@ -3,22 +3,33 @@ import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 
 // eslint-disable-next-line react/prop-types
-function HourlyForecast({ item }) {
+function ForecastList({ itemHourly, itemDaily, type }) {
   const { timeStamptoHour, hourlyForecast } = useContext(DataContext);
 
   return (
     <>
       <div className={ForecastCSS["forecast"]}>
         <p className={ForecastCSS.forecast}>
-          {timeStamptoHour(item.dt, hourlyForecast.city.timezone)}
+          {type == "hourly"
+            ? timeStamptoHour(itemHourly.dt, hourlyForecast.city.timezone)
+            : new Date(itemDaily.dt * 1000).toLocaleDateString("en-US", {
+                weekday: "long",
+              })}
         </p>
         <img
           className={ForecastCSS["forecast-icon"]}
           alt="weather icon"
-          src={`./img/${item.weather[0].icon}.png`}
+          src={
+            type == "hourly"
+              ? `./img/${itemHourly.weather[0].icon}.png`
+              : `./img/${itemDaily.weather[0].icon}.png`
+          }
         />
         <p className={ForecastCSS["forecast-celsius"]}>
-          {Math.round(item.main.temp)}ºC
+          {type == "hourly"
+            ? Math.round(itemHourly.main.temp)
+            : Math.round(itemDaily.temp.day)}
+          ºC
         </p>
       </div>
       <div className={ForecastCSS["line-col"]}></div>
@@ -26,4 +37,4 @@ function HourlyForecast({ item }) {
   );
 }
 
-export default HourlyForecast;
+export default ForecastList;
