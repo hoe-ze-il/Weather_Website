@@ -1,5 +1,10 @@
 import { createContext, useState, useEffect } from "react";
-import { API_KEY, WEATHER_API_URL, HOURLY_FORECASR_API_URL } from "../api/api";
+import {
+  API_KEY,
+  WEATHER_API_URL,
+  HOURLY_FORECAST_API_URL,
+  DAILY_FORECAST_API_URL,
+} from "../api/api";
 
 const DataContext = createContext({});
 
@@ -7,10 +12,13 @@ const DataContext = createContext({});
 export const DataProvider = ({ children }) => {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [hourlyForecast, setHourlyForecast] = useState(null);
+  const [dailyForecast, setDailyForecast] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [loading2, setLoading2] = useState(true);
   const [error2, setError2] = useState(null);
+  const [loading3, setLoading3] = useState(true);
+  const [error3, setError3] = useState(null);
   const [latLon, setLatLon] = useState("11.568271,104.9224426");
 
   const [lat, lon] = latLon.split(",");
@@ -50,7 +58,7 @@ export const DataProvider = ({ children }) => {
 
     // Forecast Hourly
     fetch(
-      `${HOURLY_FORECASR_API_URL}/forecast/hourly?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      `${HOURLY_FORECAST_API_URL}/forecast/hourly?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
     )
       .then(async (response) => {
         if (!response.ok) {
@@ -67,24 +75,42 @@ export const DataProvider = ({ children }) => {
         setError2(error);
         setLoading2(false);
       });
+
+    // Daily Forecast
+    fetch(
+      `${DAILY_FORECAST_API_URL}/forecast/daily?lat=${lat}&lon=${lon}&cnt=4&appid=${API_KEY}&units=metric`
+    )
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return await response.json();
+      })
+      .then((data) => {
+        const dailyData = data;
+        setDailyForecast(dailyData);
+        setLoading3(false);
+      })
+      .catch((error) => {
+        setError3(error);
+        setLoading3(false);
+      });
   }, [lat, lon]);
 
-  if (loading) {
+  if (loading || loading2 || loading3) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (error || error2 || error3) {
+    return (
+      <div>
+        {error && `Error: ${error.message}`}
+        {error2 && `Error: ${error2.message}`}
+        {error3 && `Error: ${error3.message}`}
+      </div>
+    );
   }
-
-  if (loading2) {
-    return <div>Loading...</div>;
-  }
-
-  if (error2) {
-    return <div>Error: {error2.message}</div>;
-  }
-  console.log(hourlyForecast);
+  console.log(dailyForecast);
   return (
     <DataContext.Provider
       value={{
@@ -92,6 +118,7 @@ export const DataProvider = ({ children }) => {
         setLatLon,
         hourlyForecast,
         timeStamptoHour,
+        dailyForecast,
       }}
     >
       {children}
