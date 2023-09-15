@@ -5,6 +5,7 @@ import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 import { GrClose } from "react-icons/gr";
 
+// eslint-disable-next-line react/prop-types
 function Search({ data }) {
   const { setLatLon } = useContext(DataContext);
   const [filteredData, setFilteresData] = useState([]);
@@ -13,6 +14,7 @@ function Search({ data }) {
   const handleSearch = (e) => {
     const searchWord = e.target.value;
     setSearch(searchWord);
+    // eslint-disable-next-line react/prop-types
     const newFilter = data.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
