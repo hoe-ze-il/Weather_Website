@@ -1,8 +1,9 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { API_KEY, WEATHER_API_URL, HOURLY_FORECASR_API_URL } from "../api/api";
 
 const DataContext = createContext({});
 
+// eslint-disable-next-line react/prop-types
 export const DataProvider = ({ children }) => {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [hourlyForecast, setHourlyForecast] = useState(null);
@@ -59,7 +60,7 @@ export const DataProvider = ({ children }) => {
       })
       .then((data) => {
         const newData = data;
-        setHourlyForecast(data);
+        setHourlyForecast(newData);
         setLoading2(false);
       })
       .catch((error) => {

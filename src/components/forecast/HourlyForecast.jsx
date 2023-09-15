@@ -1,7 +1,8 @@
 import ForecastCSS from "./Forecast.module.css";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 
+// eslint-disable-next-line react/prop-types
 function HourlyForecast({ item }) {
   const { timeStamptoHour, hourlyForecast } = useContext(DataContext);
 

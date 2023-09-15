@@ -3,7 +3,7 @@ import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 
 function CurrentWeather() {
-  const { currentWeather } = useContext(DataContext);
+  const { currentWeather, timeStamptoHour } = useContext(DataContext);
   const date = new Date(currentWeather.dt * 1000);
   const currentMonth = date.toDateString();
 
@@ -29,6 +29,12 @@ function CurrentWeather() {
               {currentWeather.weather[0].description}
             </p>
             <p className={CurrentWeatherCSS.date}>{currentMonth}</p>
+            <p className={CurrentWeatherCSS["local-time"]}>
+              Local Time:{" "}
+              <span>
+                {timeStamptoHour(currentWeather.dt, currentWeather.timezone)}
+              </span>
+            </p>
             <p className={CurrentWeatherCSS["min-max"]}>
               Temp Min:
               <span> {Math.round(currentWeather.main.temp_min)}ºC</span>
