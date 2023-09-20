@@ -5,16 +5,15 @@ import { useContext } from "react";
 import DataContext from "../../context/DataContext";
 import { GrClose } from "react-icons/gr";
 
-// eslint-disable-next-line react/prop-types
 function Search({ data }) {
-  const { setLatLon } = useContext(DataContext);
+  const { setLatitude, setLongitude } = useContext(DataContext);
   const [filteredData, setFilteresData] = useState([]);
   const [search, setSearch] = useState("");
 
   const handleSearch = (e) => {
     const searchWord = e.target.value;
     setSearch(searchWord);
-    // eslint-disable-next-line react/prop-types
+
     const newFilter = data.filter((value) => {
       return value.name.toLowerCase().includes(searchWord.toLowerCase());
     });
@@ -61,9 +60,10 @@ function Search({ data }) {
               <ul key={value.id} className={SearchCSS["list-datas"]}>
                 <li
                   onClick={() =>
-                    `${setLatLon(
-                      `${value.coord.lat},${value.coord.lon}`
-                    )} ${setFilteresData([])} ${setSearch("")}`
+                    `${setLatitude(value.coord.lat)} ${setLongitude(
+                      value.coord.lon
+                    )}
+                    ${setFilteresData([])} ${setSearch("")}`
                   }
                 >
                   {value.name}, {value.country_name}

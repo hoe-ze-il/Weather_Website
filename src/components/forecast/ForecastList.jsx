@@ -12,9 +12,11 @@ function ForecastList({ itemHourly, itemDaily, type }) {
         <p className={ForecastCSS.forecast}>
           {type == "hourly"
             ? timeStamptoHour(itemHourly.dt, hourlyForecast.city.timezone)
-            : new Date(itemDaily.dt * 1000).toLocaleDateString("en-US", {
-                weekday: "long",
-              })}
+            : new Date(itemDaily.dt * 1000)
+                .toLocaleDateString("en-US", {
+                  weekday: "long",
+                })
+                .slice(0, 3)}
         </p>
         <img
           className={ForecastCSS["forecast-icon"]}
