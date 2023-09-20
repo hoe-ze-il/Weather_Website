@@ -8,7 +8,6 @@ import {
 
 const DataContext = createContext({});
 
-// eslint-disable-next-line react/prop-types
 export const DataProvider = ({ children }) => {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [hourlyForecast, setHourlyForecast] = useState(null);
@@ -19,10 +18,42 @@ export const DataProvider = ({ children }) => {
   const [error2, setError2] = useState(null);
   const [loading3, setLoading3] = useState(true);
   const [error3, setError3] = useState(null);
-  const [latLon, setLatLon] = useState("11.568271,104.9224426");
+  const [latitude, setLatitude] = useState("11.568271");
+  const [longitude, setLongitude] = useState("104.9224426");
 
-  const [lat, lon] = latLon.split(",");
+  // Function to get user geolocation
+  function getCurrentUserLocation() {
+    return new Promise((resolve, reject) => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ latitude, longitude });
+          },
+          (error) => {
+            reject(error);
+            setLatitude("11.568271");
+            setLongitude("104.9224426");
+          }
+        );
+      } else {
+        reject(new Error("Geolocation is not available in your browser"));
+      }
+    });
+  }
 
+  useEffect(() => {
+    getCurrentUserLocation()
+      .then((location) => {
+        setLatitude(location.latitude);
+        setLongitude(location.longitude);
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+      });
+  }, []);
+
+  // Function covert time dt from API to Hour
   const timeStamptoHour = (dt, timeZone) => {
     const timeInSeconds = dt + timeZone;
     const hours = Math.floor(timeInSeconds / 3600);
@@ -35,10 +66,11 @@ export const DataProvider = ({ children }) => {
     return timeString;
   };
 
+  // Fetch Data from API base on dependecy Latitude and Longitude
   useEffect(() => {
     // Current Weather
     fetch(
-      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      `${WEATHER_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
     )
       .then(async (response) => {
         if (!response.ok) {
@@ -58,7 +90,7 @@ export const DataProvider = ({ children }) => {
 
     // Forecast Hourly
     fetch(
-      `${HOURLY_FORECAST_API_URL}/forecast/hourly?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      `${HOURLY_FORECAST_API_URL}/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
     )
       .then(async (response) => {
         if (!response.ok) {
@@ -78,7 +110,7 @@ export const DataProvider = ({ children }) => {
 
     // Daily Forecast
     fetch(
-      `${DAILY_FORECAST_API_URL}/forecast/daily?lat=${lat}&lon=${lon}&cnt=4&appid=${API_KEY}&units=metric`
+      `${DAILY_FORECAST_API_URL}/forecast/daily?lat=${latitude}&lon=${longitude}&cnt=4&appid=${API_KEY}&units=metric`
     )
       .then(async (response) => {
         if (!response.ok) {
@@ -95,7 +127,7 @@ export const DataProvider = ({ children }) => {
         setError3(error);
         setLoading3(false);
       });
-  }, [lat, lon]);
+  }, [latitude, longitude]);
 
   if (loading || loading2 || loading3) {
     return <div>Loading...</div>;
@@ -110,15 +142,20 @@ export const DataProvider = ({ children }) => {
       </div>
     );
   }
-  console.log(dailyForecast);
+
   return (
     <DataContext.Provider
       value={{
+        // Current Weather
         currentWeather,
-        setLatLon,
+        // Hourly Forecast
         hourlyForecast,
-        timeStamptoHour,
+        // Daily Forecast
         dailyForecast,
+        // Functions
+        setLatitude,
+        setLongitude,
+        timeStamptoHour,
       }}
     >
       {children}
